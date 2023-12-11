@@ -1,9 +1,12 @@
 ```mermaid
-  graph TD;
-     Browser->>Server: POST request with user input;
+  graph TD
+    Browser->>Server: POST request with user input;
     Server->>Browser: HTTP Status Response - Ask for a GET response;
     Browser->>+Browser: Browser reload;
     Browser->>Server: fetch style.css;
+    Server->>Browser: css file;
     Browser->>Server: fetch main.js;
+    Server->>Browser: javascript file;
     Browser->>Server: fetch data.json;
+    Server->>Browser: json file;
 ```
