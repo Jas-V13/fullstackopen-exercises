@@ -1,6 +1,17 @@
 import { div } from '@tensorflow/tfjs'
 import { useState } from 'react'
 
+const StatisticsLine = (p) =>{
+  const t = p.n
+  const v = p.v
+  if(p.percent != null) {
+    return( <div>{t} {v}%</div>)
+  }
+  return (
+    <div>{t} {v}</div>
+  )
+}
+
 
 const Statistics = (p) =>{
    const g = p.good
@@ -17,12 +28,12 @@ const Statistics = (p) =>{
    }
    return(
     <div>
-        <p>good {g}</p>
-        <p>neutral {n}</p>
-        <p>bad {b}</p>
-        <p>total: {t}</p>
-        <p>average: {avg}</p> 
-        <p> positive: {positive}%</p> 
+      <StatisticsLine n="good" v={g}/>
+      <StatisticsLine n="neutral" v={n}/>
+      <StatisticsLine n="bad" v={b}/>
+      <StatisticsLine n="total:" v={t}/>
+      <StatisticsLine n="average:" v={avg}/>
+      <StatisticsLine n="positive" v={positive} percent={1}/>
       </div>
   )
 }
@@ -34,21 +45,28 @@ const App = () => {
 
   const [totalClick, setTotal] = useState(0)
 
-  const handleClick = (x, i) => { x(i + 1); setTotal(totalClick + 1)}
+ 
 
   return (
     <div>
       <div>
         <h1>Give us a feedback!</h1>
-      <button onClick={() => handleClick(setGood, good)}>Good</button>
-      <button onClick={() => handleClick(setNeutral, neutral)}>Neutral</button>
-      <button onClick={() => handleClick(setBad, bad)}>Bad</button>
+      <Button n="Good" set={setGood} v ={good} setT={setTotal} t={totalClick}/>
+      <Button n="Neutral" set={setNeutral} v ={neutral} setT={setTotal} t={totalClick}/>
+      <Button n="Bad" set={setBad} v ={bad} setT={setTotal} t={totalClick}/>
       </div>
       <h1>Statistics</h1>
       <Statistics good={good} neutral ={neutral} bad={bad} totalClick={totalClick}/>
     </div>
     
   )
+}
+const Button = (p) =>{
+  const handleClick = (x, i) => { x(i + 1); p.setT(p.t + 1)}
+  return (
+      <button onClick={()=> handleClick(p.set,p.v)}>{p.n}</button>
+  )
+
 }
 
 export default App
