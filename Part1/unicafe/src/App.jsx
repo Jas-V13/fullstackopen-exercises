@@ -9,9 +9,14 @@ const Statistics = (p) =>{
    const t = p.totalClick
    const avg = (g - b)/ t
    const positive = (g/t)*100
-  return (
+   if(p.totalClick === 0)
+   {
+    return(
+      <div>No Feedback given...</div>
+    )
+   }
+   return(
     <div>
-    <h1>Statistics</h1>
         <p>good {g}</p>
         <p>neutral {n}</p>
         <p>bad {b}</p>
@@ -39,6 +44,7 @@ const App = () => {
       <button onClick={() => handleClick(setNeutral, neutral)}>Neutral</button>
       <button onClick={() => handleClick(setBad, bad)}>Bad</button>
       </div>
+      <h1>Statistics</h1>
       <Statistics good={good} neutral ={neutral} bad={bad} totalClick={totalClick}/>
     </div>
     
