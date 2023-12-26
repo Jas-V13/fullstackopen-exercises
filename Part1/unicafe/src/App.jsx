@@ -1,12 +1,25 @@
+import { div } from '@tensorflow/tfjs'
 import { useState } from 'react'
 
-
+const Avg = (props) => {
+  const avg = (props.good - props.bad)/ props.total
+  const positive = (props.good/ props.total)*100
+  return (
+    <div>
+      <p>average: {avg}</p> 
+      <p> positive: {positive}%</p> 
+    </div>
+  )
+}
 const App = () => {
   // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const handleClick = (x, i) => { x(i + 1)}
+  const [good, setGood] = useState(0) //1
+  const [neutral, setNeutral] = useState(0) //0
+  const [bad, setBad] = useState(0) // -1
+
+  const [totalClick, setTotal] = useState(0)
+
+  const handleClick = (x, i) => { x(i + 1); setTotal(totalClick + 1)}
 
   return (
     <div>
@@ -21,6 +34,7 @@ const App = () => {
         <p>good {good}</p>
         <p>neutral {neutral}</p>
         <p>bad {bad}</p>
+        <Avg good = {good} bad = {bad} total={totalClick}/>
       </div>
     </div>
     
