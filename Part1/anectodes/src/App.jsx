@@ -14,22 +14,28 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [vote, setVote] = useState(Array(anecdotes.length).fill(0))
+  const [max, setMax] = useState(0)
  
   
   const randomNum = (x,i) =>( x(i = Math.floor(Math.random() * anecdotes.length)))
   const voteClick = () => {
     const p=[...vote]; 
     p[selected] += 1;
-    setVote(p)
+    setVote(p);
+    if (p[selected] > p[max]) 
+      setMax(selected);
   }
-
-
+  
   return (
     <div>
+      <h1>Anectode of the Day</h1>
       <div>{anecdotes[selected]}</div>
       <div>Thi anectode has: {vote[selected]} votes</div>
       <button onClick={() => randomNum(setSelected, selected)}>Random anectode!</button>
       <button onClick={voteClick}>Vote</button>
+      <h1>Most rated Anectode</h1>
+      <div>{anecdotes[max]}</div>
+      <div>With {vote[max]} votes!</div>
     </div>
   )
 }
