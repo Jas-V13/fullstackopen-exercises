@@ -5,10 +5,10 @@ const StatisticsLine = (p) =>{
   const t = p.n
   const v = p.v
   if(p.percent != null) {
-    return( <div>{t} {v}%</div>)
+    return( <tr><td>{t}</td> <td>{v}%</td></tr>)
   }
   return (
-    <div>{t} {v}</div>
+    <tr><td>{t}</td> <td>{v}</td></tr>
   )
 }
 
@@ -27,14 +27,14 @@ const Statistics = (p) =>{
     )
    }
    return(
-    <div>
+    <table>
       <StatisticsLine n="good" v={g}/>
       <StatisticsLine n="neutral" v={n}/>
       <StatisticsLine n="bad" v={b}/>
-      <StatisticsLine n="total:" v={t}/>
-      <StatisticsLine n="average:" v={avg}/>
+      <StatisticsLine n="total" v={t}/>
+      <StatisticsLine n="average" v={avg}/>
       <StatisticsLine n="positive" v={positive} percent={1}/>
-      </div>
+      </table>
   )
 }
 const App = () => {
