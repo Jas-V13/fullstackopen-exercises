@@ -1,14 +1,24 @@
 import { div } from '@tensorflow/tfjs'
 import { useState } from 'react'
 
-const Avg = (props) => {
-  const avg = (props.good - props.bad)/ props.total
-  const positive = (props.good/ props.total)*100
+
+const Statistics = (p) =>{
+   const g = p.good
+   const n = p.neutral
+   const b = p.bad
+   const t = p.totalClick
+   const avg = (g - b)/ t
+   const positive = (g/t)*100
   return (
     <div>
-      <p>average: {avg}</p> 
-      <p> positive: {positive}%</p> 
-    </div>
+    <h1>Statistics</h1>
+        <p>good {g}</p>
+        <p>neutral {n}</p>
+        <p>bad {b}</p>
+        <p>total: {t}</p>
+        <p>average: {avg}</p> 
+        <p> positive: {positive}%</p> 
+      </div>
   )
 }
 const App = () => {
@@ -29,13 +39,7 @@ const App = () => {
       <button onClick={() => handleClick(setNeutral, neutral)}>Neutral</button>
       <button onClick={() => handleClick(setBad, bad)}>Bad</button>
       </div>
-      <div>
-        <h1>Statistics</h1>
-        <p>good {good}</p>
-        <p>neutral {neutral}</p>
-        <p>bad {bad}</p>
-        <Avg good = {good} bad = {bad} total={totalClick}/>
-      </div>
+      <Statistics good={good} neutral ={neutral} bad={bad} totalClick={totalClick}/>
     </div>
     
   )
