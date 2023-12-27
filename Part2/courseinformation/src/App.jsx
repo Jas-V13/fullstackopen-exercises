@@ -17,6 +17,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
@@ -26,11 +31,11 @@ const App = () => {
 
 const Course = (props) => {
   const { course } = props;
-  console.log(props);
   return (
     <div>
       <h1>{course.name}</h1>
-      {course.parts.map(v => <p key={v.id}>{v.name} {v.exercises}</p>)}     
+      {course.parts.map(v => <p key={v.id}>{v.name} {v.exercises}</p>)}
+      <p><strong>Total of {course.parts.map(v => v.exercises).reduce((t,n) => t+n)} exercises</strong></p>     
     </div>
   );
 }
