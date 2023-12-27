@@ -22,6 +22,11 @@ const App = () => {
         name: 'Redux',
         exercises: 11,
         id: 4
+      },
+      {
+        name: 'Something to make a commit for',
+        exercises: -1,
+        id: 5
       }
     ]
   }
