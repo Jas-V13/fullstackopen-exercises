@@ -1,5 +1,5 @@
 const App = () => {
-  const course = {
+  const course = [{
     id: 1,
     name: 'Half Stack application development',
     parts: [
@@ -29,19 +29,45 @@ const App = () => {
         id: 5
       }
     ]
+  }, 
+  {
+    name: 'Node.js',
+    id: 2,
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3,
+        id: 1
+      },
+      {
+        name: 'Middlewares',
+        exercises: 7,
+        id: 2
+      }
+    ]
   }
+]
+
   
   return <Course course={course}/>
 }
 
 const Course = (props) => {
   const { course } = props;
+
+  const formatted = course.map(v => 
+  <div key ={v.id}>  
+    <h1>{v.name}</h1>
+    {v.parts.map(i => <p key={i.id}>{i.name} {i.exercises}</p>)}
+    <p><strong>Total of {v.parts.map(i => i.exercises).reduce((t,n) => t+n)} exercises</strong></p>
+  </div>)
+  // this is probably a different solution from the arbitrary one, I wrote that one too before making this solution
+  // I wanted to try to map each member of the course array so that could work with n elements and not just with course[0], course[1], etc...
   return (
     <div>
-      <h1>{course.name}</h1>
-      {course.parts.map(v => <p key={v.id}>{v.name} {v.exercises}</p>)}
-      <p><strong>Total of {course.parts.map(v => v.exercises).reduce((t,n) => t+n)} exercises</strong></p>     
+      {formatted}
     </div>
+
   );
 }
 
