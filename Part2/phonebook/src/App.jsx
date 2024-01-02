@@ -8,6 +8,14 @@ const App = () => {
 
   const addName = (ev) =>{
     ev.preventDefault()
+    let checkName = false;
+    for(const i of persons){
+      if(i.name === newName) {
+        alert(`${newName} is already added to phonebook`);
+        checkName=true;
+        break;}
+    };
+    if(checkName) return;
     const idName = newName.split(" ").slice(0,1)
     const obj ={
       name: newName,
