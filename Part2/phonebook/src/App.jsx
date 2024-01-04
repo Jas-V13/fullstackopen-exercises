@@ -32,22 +32,34 @@ const DisplayNames = ({ persons, filter, setPersons }) => {
 const PersonForm = ({ persons, newN, newP, setPers, setN, setP }) => {
   const newName = newN;
   const newPhone = newP;
+const changeNumber = (id, num) => {
+  const url = `http://localhost:3001/persons/${id}`
+  const pname = persons.find(i => i.id === id)
+  const chName = { ...pname, phone: num }
+  phonebookService.update(id, chName).then(i => {
+    setPers(persons.map(n => n.id !== id ? n : i.data))
+  })
+}
 
   const addName = (ev) => {
     ev.preventDefault();
     let checkName = false;
+    const obj = {
+      name: newName,
+      phone: newPhone
+    };
     for (const i of persons) {
       if (i.name === newName) {
-        alert(`${newName} is already added to phonebook`);
+        //alert(`${newName} is already added to phonebook`);
+        if (window.confirm(`Change ${i.name} number?`)) {
+          changeNumber(i.id, newPhone);
+        }
         checkName = true;
         break;
       }
     };
     if (checkName) return;
-    const obj = {
-      name: newName,
-      phone: newPhone
-    };
+    
     phonebookService
                     .create(obj)
                     .then(r => {
