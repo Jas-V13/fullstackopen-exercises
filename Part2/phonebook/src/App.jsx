@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios'
+import phonebookService from './services/phonebook'
 
 
 
 
 const DisplayNames = ({ persons, filter }) => {
   return persons
-    .filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
-    .map(person => (
-      <li key={person.name}>{person.name} {person.phone}</li>
-    ));
+                .filter(i => i.name.toLowerCase().includes(filter.toLowerCase()))
+                .map(person => (
+                  <li key={person.name}>{person.name} {person.phone}</li>
+                ));
 }
 
 const PersonForm = ({ persons, newN, newP, setPers, setN, setP }) => {
-
   const newName = newN;
   const newPhone = newP;
 
@@ -32,13 +31,13 @@ const PersonForm = ({ persons, newN, newP, setPers, setN, setP }) => {
       name: newName,
       phone: newPhone
     };
-    axios
-        .post('http://localhost:3001/persons', obj)
-        .then(r => {
-          setPers(persons.concat(r.data));
-          setN('');
-          setP('');
-        })
+    phonebookService
+                    .create(obj)
+                    .then(r => {
+                      setPers(persons.concat(r.data))
+                      setN('');
+                      setP('');
+                    })
     
   };
 
@@ -74,10 +73,10 @@ const App = () => {
 
 
   useEffect(() => {
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data)
+  phonebookService
+                  .getAll()
+                  .then(r => {
+                    setPersons(r.data)
     })
 }, [])
 
