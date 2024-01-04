@@ -28,15 +28,18 @@ const PersonForm = ({ persons, newN, newP, setPers, setN, setP }) => {
       }
     };
     if (checkName) return;
-    const idName = newName.split(" ").slice(0, 1);
     const obj = {
       name: newName,
-      phone: newPhone,
-      id: idName[0]
+      phone: newPhone
     };
-    setPers(persons.concat(obj));
-    setN('');
-    setP('');
+    axios
+        .post('http://localhost:3001/persons', obj)
+        .then(r => {
+          setPers(persons.concat(r.data));
+          setN('');
+          setP('');
+        })
+    
   };
 
   const handleName = (ev) => {
