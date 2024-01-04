@@ -2,13 +2,30 @@ import { useState, useEffect } from 'react';
 import phonebookService from './services/phonebook'
 
 
+const DeleteID = ({ persons, id, setPersons }) => {
+  const nameID = persons.find(p => p.id === id)
+  const deleteID = () => {
+    if (window.confirm(`Delete ${nameID.name}?`)) {
+      phonebookService
+        .deleteID(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id));
+        })
+        .catch(e => {
+          console.error(e);
+        });
+    }
+  };
+
+  return <button onClick={deleteID}>delete</button>;
+};
 
 
-const DisplayNames = ({ persons, filter }) => {
+const DisplayNames = ({ persons, filter, setPersons }) => {
   return persons
                 .filter(i => i.name.toLowerCase().includes(filter.toLowerCase()))
                 .map(person => (
-                  <li key={person.name}>{person.name} {person.phone}</li>
+                  <li key={person.id}>{person.name} {person.phone} <DeleteID persons={persons} id={person.id} setPersons={setPersons}/></li>
                 ));
 }
 
@@ -88,7 +105,7 @@ const App = () => {
       <PersonForm persons={persons} newN={newName} newP={newPhone} setPers={setPersons} setN={setNewName} setP={setNewPhone} />
       <h2>Numbers</h2>
       <ul>
-        <DisplayNames persons={persons} filter={newFilter} />
+        <DisplayNames persons={persons} filter={newFilter} setPersons={setPersons}/>
       </ul>
     </div>
   );

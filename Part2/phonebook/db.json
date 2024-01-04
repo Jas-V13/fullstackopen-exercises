@@ -2,73 +2,28 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "040-123456",
+      "phone": "040-12345678",
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "name": "Something",
+      "phone": "12345",
       "id": 2
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "name": "Maybe isWorking",
+      "phone": "77889965",
       "id": 3
     },
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
+      "name": "Antonio Casanova",
+      "phone": "5478254",
       "id": 4
     },
     {
-      "name": "Prova",
-      "phone": "12345",
-      "id": 6
-    },
-    {
-      "name": "Testing",
-      "phone": "09944813",
-      "id": 7
-    },
-    {
-      "name": "as",
-      "phone": "as",
-      "id": 8
-    },
-    {
-      "name": "asdd",
-      "phone": "aasd",
-      "id": 9
-    },
-    {
-      "name": "ss",
-      "phone": "ss",
-      "id": 10
-    },
-    {
-      "name": "aa",
-      "phone": "a",
-      "id": 11
-    },
-    {
-      "name": "a",
-      "phone": "a",
-      "id": 12
-    },
-    {
-      "name": "aaa",
-      "phone": "11a",
-      "id": 13
-    },
-    {
-      "name": "IsWorkingNow?",
-      "phone": "yes or no",
-      "id": 14
-    },
-    {
-      "name": "finally",
-      "phone": "556798",
-      "id": 15
+      "name": "It wasn't easy",
+      "phone": "17",
+      "id": 5
     }
   ]
 }
