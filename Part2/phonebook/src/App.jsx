@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import phonebookService from './services/phonebook'
 
-const DeleteID = ({ persons, id, setPersons }) => {
+const DeleteID = ({ persons, id, setPersons, setErrorMsg}) => {
   const nameID = persons.find(p => p.id === id)
-  const [errorMsg, setErrorMsg] = useState('Error occurred');
   const deleteID = () => {
     if (window.confirm(`Delete ${nameID.name}?`)) {
       phonebookService
@@ -25,26 +24,33 @@ const DeleteID = ({ persons, id, setPersons }) => {
   return <button onClick={deleteID}>delete</button>;
 };
 
-
-const DisplayNames = ({ persons, filter, setPersons }) => {
+const DisplayNames = ({ persons, filter, setPersons, setErrorMsg }) => {
   return persons
                 .filter(i => i.name.toLowerCase().includes(filter.toLowerCase()))
                 .map(person => (
-                  <li key={person.id}>{person.name} {person.phone} <DeleteID persons={persons} id={person.id} setPersons={setPersons}/></li>
+                  <li key={person.id}>{person.name} {person.phone} <DeleteID persons={persons} id={person.id} setPersons={setPersons} setErrorMsg={setErrorMsg}/></li>
                 ));
 }
 
-const PersonForm = ({ persons, newN, newP, setPers, setN, setP, setMsg }) => {
+const PersonForm = ({ persons, newN, newP, setPers, setN, setP, setMsg, setErrorMsg }) => {
   const newName = newN;
   const newPhone = newP;
-const changeNumber = (id, num) => {
-  const url = `http://localhost:3001/persons/${id}`
-  const pname = persons.find(i => i.id === id)
-  const chName = { ...pname, phone: num }
-  phonebookService.update(id, chName).then(i => {
-    setPers(persons.map(n => n.id !== id ? n : i.data))
-  })
-}
+  const changeNumber = (id, num) => {
+    const pname = persons.find(i => i.id === id)
+    const chName = { ...pname, phone: num }
+    phonebookService.update(id, chName)
+      .then(i => {
+        setPers(persons.map(n => n.id !== id ? n : i.data))
+      })
+      .catch(e => {
+        setErrorMsg(
+          `'${pname.name}' was already removed from server`
+        )
+        setTimeout(() => {
+          setErrorMsg(null)
+        }, 5000)
+      })
+  }
 
   const addName = (ev) => {
     ev.preventDefault();
@@ -58,10 +64,16 @@ const changeNumber = (id, num) => {
         //alert(`${newName} is already added to phonebook`);
         if (window.confirm(`Change ${i.name} number?`)) {
           changeNumber(i.id, newPhone);
-          setMsg(`${i.name} number changed to ${newPhone}`)
+          try{
+            setMsg(`${i.name} number changed to ${newPhone}`)
                       setTimeout(() => {
                         setMsg(null)
                       }, 3000)
+
+          }catch(e){
+
+          }
+          
         }
         checkName = true;
         break;
@@ -127,6 +139,25 @@ const InfoMsg = ({message}) => {
     </div>
   )
 }
+const ErrorMsg = ({message}) => {
+  const Style = {
+    color: 'red',
+    fontStyle: 'italic',
+    padding: 15,
+    border: 1,
+    borderStyle: 'solid',
+    fontSize: 16
+  }
+  if (message === null || message === '') {
+    return null
+  }
+
+  return (
+    <div style={Style}>
+      {message}
+    </div>
+  )
+}
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -134,6 +165,7 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('');
   const [newFilter, setNewFilter] = useState('');
   const [infoMessage, setInfoMessage] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
   phonebookService
@@ -147,15 +179,19 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <InfoMsg message={infoMessage}/>
+      <ErrorMsg message={errorMsg}/>
       <Filter setF={setNewFilter}/>
       <h2>Add new contact:</h2>
-      <PersonForm persons={persons} newN={newName} newP={newPhone} setPers={setPersons} setN={setNewName} setP={setNewPhone} setMsg={setInfoMessage}/>
+      <PersonForm persons={persons} newN={newName} newP={newPhone} setPers={setPersons} setN={setNewName} setP={setNewPhone} setMsg={setInfoMessage} setErrorMsg={setErrorMsg}/>
       <h2>Numbers</h2>
       <ul>
-        <DisplayNames persons={persons} filter={newFilter} setPersons={setPersons}/>
+        <DisplayNames persons={persons} filter={newFilter} setPersons={setPersons} setErrorMsg={setErrorMsg}/>
       </ul>
     </div>
   );
 }
 
 export default App;
+
+//for exercise 2.17: I achieved the objective of the exercise, but both success and error messages get displayed.
+//honestly, having destructured a lot in the previous exercises made an avoidable general mess
