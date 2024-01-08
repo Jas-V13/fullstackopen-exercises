@@ -194,4 +194,3 @@ const App = () => {
 export default App;
 
 //for exercise 2.17: I achieved the objective of the exercise, but both success and error messages get displayed.
-//honestly, having destructured a lot in the previous exercises made an avoidable general mess
