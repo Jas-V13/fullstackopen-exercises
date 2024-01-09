@@ -1,5 +1,28 @@
 import { useEffect, useState } from 'react';
 import countrySearch from './services/countries';
+const ShowCountry = ({country}) =>{
+  const [visible, setVisible] = useState(false);
+  const Style = {display: visible ? 'block' : 'none',};
+  const ShowStat = () => {
+    setVisible(!visible);
+  }
+  return (
+    <div><button onClick={ShowStat}>show</button>
+    <div style={Style} className='show-class'>
+      <h1>{country.name.common}</h1>
+      <p>Capital: {country.capital}</p>
+      <p>Area: {country.area} km²</p>
+
+      <h3>languages:</h3>
+      <ul>
+        {country.languages && Object.entries(country.languages).map(([code, language]) => (
+          <li key={code}>{language}</li>
+        ))}
+      </ul>
+      <img src={country.flags.png} alt={country.flags.alt}/>
+    </div>
+    </div>)
+}
 
 const DisplayCountry = ({ countries, filter, count }) => {
   if(count > 10) return;
@@ -25,7 +48,7 @@ const DisplayCountry = ({ countries, filter, count }) => {
     </div>)
   }
   
-  return filteredCountries.map(e => (<li key={e.name.common}>{e.name.common}</li>));
+  return filteredCountries.map(e => (<li key={e.name.common} style={{ display: 'flex'}} >{e.name.common} <ShowCountry country={e}/></li>));
 };
 
 function App() {
